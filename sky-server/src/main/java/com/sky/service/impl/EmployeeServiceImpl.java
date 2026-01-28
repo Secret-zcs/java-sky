@@ -36,6 +36,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param employeeLoginDTO
      * @return
      */
+    @Override
     public Employee login(EmployeeLoginDTO employeeLoginDTO) {
         String username = employeeLoginDTO.getUsername();
         String password = employeeLoginDTO.getPassword();
@@ -70,6 +71,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * 新增员工
      * @param employeeDTO
      */
+    @Override
     public void save(EmployeeDTO employeeDTO){
         System.out.println("当前线程的id："+Thread.currentThread().getId());
         Employee employee = new Employee();
@@ -89,7 +91,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper.insert(employee);
     }
 
-
+    /***
+     * 员工分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
+    @Override
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO){
         //开始分页查询
         PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
@@ -99,4 +106,30 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<Employee> records = page.getResult();
         return new PageResult(total, records);
     }
+
+    @Override
+    public void changestatus(Integer status, Long id) {
+        Employee employee = Employee.builder()
+                .status(status)
+                .id(id)
+                .build();
+        employeeMapper.update(employee);
+    }
+
+    @Override
+    public Employee getById(Long id) {
+        Employee employee = employeeMapper.getById(id);
+        employee.setPassword("****");
+        return employee;
+    }
+
+    @Override
+    public void update(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+        employeeMapper.update(employee);
+    }
+
 }
