@@ -26,7 +26,10 @@ sky:
     access-key-id: ${sky.alioss.access-key-id}
     access-key-secret: ${sky.alioss.access-key-secret}
     bucket-name: ${sky.alioss.bucket-name}
-
+  shop:
+    address: 西安市长安区西长安街919号
+  baidu:
+    ak: XP4KlaAkkzhtMdhfbbMrBCIDhUlI2hIK
   #文件上传配置
   servlet:
     multipart:
