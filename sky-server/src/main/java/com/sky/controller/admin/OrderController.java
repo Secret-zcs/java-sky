@@ -48,6 +48,11 @@ public class OrderController {
         return Result.success(orderStatisticsVO);
     }
 
+    /***
+     * 查询订单详细信息
+     * @param id
+     * @return
+     */
     @GetMapping("/details/{id}")
     @ApiOperation("查询订单详细信息")
     public Result<OrderVO> details(@PathVariable("id") Long id) {
@@ -55,6 +60,11 @@ public class OrderController {
         return Result.success(orderVO);
     }
 
+    /***
+     * 商家接单
+     * @param ordersConfirmDTO
+     * @return
+     */
     @PutMapping("/confirm")
     @ApiOperation("商家接单")
     public Result confirm(@RequestBody OrdersConfirmDTO ordersConfirmDTO){
@@ -62,16 +72,34 @@ public class OrderController {
         return Result.success();
     }
 
+    /***
+     * 商家拒单
+     * @param ordersRejectionDTO
+     * @return
+     */
     @PutMapping("/rejection")
     @ApiOperation("商家拒单")
     public Result rejection(@RequestBody OrdersRejectionDTO ordersRejectionDTO){
         orderService.rejection(ordersRejectionDTO);
         return Result.success();
     }
+
+    /***
+     * 派送订单
+     * @param id
+     * @return
+     */
     @PutMapping("/delivery/{id}")
     @ApiOperation("派送订单")
     public Result delivery(@PathVariable Long id){
         orderService.delivery(id);
+        return Result.success();
+    }
+
+    @PutMapping("/complete/{id}")
+    @ApiOperation("完成订单")
+    public Result complete(@PathVariable Long id){
+        orderService.complete(id);
         return Result.success();
     }
 
